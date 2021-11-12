@@ -45,7 +45,7 @@ header h2 {
 }
 .search-alert {
     text-align: center;
-	display: 
+	display: none;
 }
 
 .search-alert h2 {
@@ -112,16 +112,16 @@ header h2 {
 	border-radius: 50%;
 	background-color: white;
 	background-blend-mode: multiply, luminosity;
-	width: 90px;
-	height: 90px;
+	width: 128px;
+	height: 128px;
 	margin: auto auto 15px;
 }
 
 .student-details::before {
 	content: '';
 	position: absolute;
-	width: 90px;
-	height: 90px;
+	width: 128px;
+	height: 128px;
 	background: rgb(66 54 68 / 30%);
 	border-radius: 50%;
 }

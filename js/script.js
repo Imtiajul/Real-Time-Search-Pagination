@@ -11,9 +11,9 @@ This function will create and insert/append the elements needed to display a "pa
 const studentPerPage = 9;
 const studentList = document.querySelector('.student-list');
 const pageList = document.querySelector('.link-list');
-const data1 = data;
+var students = data;
 //pageId is most important to grab the particular page data, like pageId 101 means data will start from 0 index, 102 means index will start from 9 to 18....
-function showPage(pageId, data = data1) {
+function showPage(pageId, data = students) {
   const page = Number(pageId);
   // adding active class to specific page
   //101 - 101  = 0
@@ -31,7 +31,7 @@ function showPage(pageId, data = data1) {
     li.className = 'student-item cf';
     li.innerHTML =
       `<div class="student-details">
-        <img class="avatar" src="${data[i].picture.medium}" alt="Profile Picture">
+        <img class="avatar" src="${data[i].picture.large}" alt="${data[i].name.first} ${data[i].name.last}">
         <h3>${data[i].name.title} ${data[i].name.first} ${data[i].name.last} </h3>
         <span class="email">${data[i].email}</span>
       </div>
@@ -45,7 +45,7 @@ function showPage(pageId, data = data1) {
 Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
 */
-// pagination function for Search and default data
+// pagination function for Search, default data, dyanamically add page, remove previous pagination
 function addPageLink(data) {
   const totalPage = Math.ceil(data.length / studentPerPage);
   //if previous pagination exist then remove 
@@ -61,9 +61,9 @@ function addPageLink(data) {
     pageList.appendChild(li);
   }
 }
-// this function will fire on page item
 
-function addPagination(pageId, data = data1) {
+// this function will fire on each pagination click
+function addPagination(pageId, data = students) {
   const totalPage = Math.ceil(data.length / studentPerPage);
   //removing active class
   for (var i = 0; i < totalPage; i++) {
@@ -78,7 +78,7 @@ function addPagination(pageId, data = data1) {
   showPage(pageId);
 }
 // For first displaying data
-addPageLink(data);
+addPageLink(students);
 showPage('101');
 /*
 (Bonus Task)
@@ -97,18 +97,23 @@ function searchPage() {
   if (studentList.childElementCount) {
     studentItems.forEach(item => item.remove());
   }
-  const searchContent = searchInput.value;
-
+  
+  const inputContent = searchInput.value;
   // searching data
-  const filterData = data1.filter(function (d) {
+  const filterData = data.filter(function (d) {
     const fullName = d.name.title.toLowerCase() + ' ' + d.name.first.toLowerCase() + ' ' + d.name.last.toLowerCase();
-    return fullName.includes(searchContent.toLowerCase());
+    return fullName.includes(inputContent.toLowerCase());
   });
   // this function will create pagination for search items
   // console.log(filterData);
   addPageLink(filterData);
   showPage('101', filterData);
-
+  // changing default data if searching input
+  if(inputContent === '') {
+    students = data;
+  } else {
+    students = filterData;
+  }
   /*
   const searchAlert = document.querySelector('.search-alert');
   if(filterData.length) {
